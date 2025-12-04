@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minimal Coffee</title>
+  <header class="top-header">
+  <h1>Archie's Blend Coffee</h1>
+</header>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: #ffffff;
+      color: #333;
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 70vh;
+      overflow: hidden;
+    }
+
+    .hero video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(75%);
+    }
+
+    .overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+      animation: fadeIn 1.2s ease forwards;
+    }
+
+    .hero h1 { font-size: 2.5rem; font-weight: 600; margin: 0; }
+    .hero p { margin-top: 10px; font-size: 1rem; opacity: 0.8; }
+.top-header {
+  width: 100%;
+  padding: 20px 0;
+  text-align: center;
+  background: #ffffff;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.top-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #333;
+}
+
+    section { padding: 60px 20px; max-width: 1100px; margin: auto; }
+    .title { font-size: 2rem; text-align: center; margin-bottom: 40px; font-weight: 500; }
+
+    .coffee-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 25px; }
+    .coffee-card { border: 1px solid #eee; border-radius: 14px; padding: 20px; text-align: center; background: #fafafa; transition: 0.3s ease; animation: fadeUp 0.8s ease; }
+    .coffee-card:hover { transform: translateY(-5px); background: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+    .coffee-card img { width: 100%; border-radius: 10px; margin-bottom: 10px; }
+
+    .benefits { border: 1px solid #eee; padding: 25px; border-radius: 14px; background: #fafafa; animation: fadeIn 1s ease; }
+    .benefits ul { line-height: 1.8; }
+
+    .cta { text-align: center; margin-top: 50px; animation: fadeIn 1s ease; }
+    .cta button { padding: 14px 30px; border: none; border-radius: 8px; background: #d8b89a; color: white; font-size: 1rem; cursor: pointer; transition: 0.3s ease; }
+    .cta button:hover { background: #c7a387; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    .benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  padding: 20px;
+}
+
+.benefit-card {
+  position: relative;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #eee;
+  overflow: hidden;
+  animation: fadeIn 1s ease;
+  transition: 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+}
+
+.benefit-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("./image/happy life.png"); /* your background image */
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15;
+  z-index: 1;
+}
+
+.benefit-icon {
+  width: 70px;
+  height: 70px;
+  z-index: 2;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.benefit-card p {
+  font-size: 1rem;
+  font-weight: 300;
+  z-index: 2;
+  position: relative;
+}
+<style>
+/* Custom dropdown with images */
+.custom-select select {
+width:100%;
+padding:14px;
+border-radius:10px;
+border:1px solid #ddd;
+background:#fafafa;
+appearance:none;
+cursor:pointer;
+}
+
+
+.image-select option {
+padding-left:40px;
+background-repeat:no-repeat;
+background-size:28px;
+background-position:8px center;
+}
+
+
+/* Apply images to each option */
+image-select option[value="Classic Brew"] { background-image:url('./image/Classic\ Brew.png'); }
+image-select option[value="Vanilla Latte"] { background-image:url('./image/Vanilla\ Latte.png'); }
+image-select option[value="Mocha Bliss"] { background-image:url('./image/Mocha\ Bliss.png'); }
+image-select option[value="Caramel Roast"] { background-image:url('./image/Caramel\ Roast.png'); }
+image-select option[value="Hazelnut Smooth"] { background-image:url('./image/Hazelnut\ Smooth.png'); }
+image-select option[value="Dark Espresso"] { background-image:url('./image/Dark\ Espresso.png'); }
+image-select option[value="Cinnamon Spice"] { background-image:url('./image/Cinnamon\ Spice.png'); }
+image-select option[value="Coconut Cream"] { background-image:url('./image/Coconut\ Cream.png'); }
+image-select option[value="Irish Coffee"] { background-image:url('./image/Irish\ Coffee.png'); }
+image-select option[value="Peppermint Mocha"] { background-image:url('./image/Peppermint\ Mocha.png Mocha.png'); }
+
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <video autoplay muted loop>
+      <source src="./coffee loop.mp4" type="video/mp4">
+    </video>
+    <div class="overlay">
+      <h1>Pure • Minimal • Coffee</h1>
+      <p>Experience calm flavor in every sip.</p>
+    </div>
+  </div>
+
+  <section>
+    <h2 class="title">Choose Your Coffee</h2>
+    <div class="coffee-grid">
+      <div class="coffee-card">
+        <img src="./image/Classic Brew.png" alt="Classic Brew">
+        Classic Brew
+      </div>
+      <div class="coffee-card">
+        <img src="./image/Vanilla Latte.png" alt="Vanilla Latte">
+        Vanilla Latte
+      </div>
+      <div class="coffee-card">
+        <img src="./image/Mocha Bliss.png" alt="Mocha Bliss">
+        Mocha Bliss
+      </div>
+      <div class="coffee-card">
+        <img src="./image/Caramel Roast.png" alt="Caramel Roast">
+        Caramel Roast
+      </div>
+      <div class="coffee-card">
+        <img src="./image/Hazelnut Smooth.png" alt="Hazelnut Smooth">
+        Hazelnut Smooth
+      </div>
+      <div class="coffee-card">
+        <img src="./image/Dark Espresso.png" alt="Dark Espresso">
+        Dark Espresso
+      </div>
+      <div class="coffee-card">
+        <img src="./image/Cinnamon Spice.png" alt="Cinnamon Spice">
+        Cinnamon Spice
+      </div>
+      <div class="coffee-card">
+        <img src="./image/Coconut Cream.png" alt="Coconut Cream">
+        Coconut Cream
+      </div>
+      <div class="coffee-card">
+        <img src="./image/Irish Coffee.png" alt="Irish Coffee">
+        Irish Coffee
+      </div>
+      <div class="coffee-card">
+        <img src="./image/Peppermint Mocha.png" alt="Peppermint Mocha">
+        Peppermint Mocha
+      </div>
+    </div>
+  </section>
+
+  <section>
+  <h2 class="title">Essential Benefits</h2>
+
+  <div class="benefits-grid">
+
+    <div class="benefit-card">
+      <img src="./icon/3.png" class="benefit-icon" alt="Energy Icon">
+      <p>Boosts energy and focus naturally</p>
+    </div>
+
+    <div class="benefit-card">
+      <img src="./icon/4.png" class="benefit-icon" alt="Antioxidant Icon">
+      <p>Rich in antioxidants</p>
+    </div>
+
+    <div class="benefit-card">
+      <img src="./icon/5.png" class="benefit-icon" alt="Mood Icon">
+      <p>Improves mood and alertness</p>
+    </div>
+
+    <div class="benefit-card">
+      <img src="./icon/6.png" class="benefit-icon" alt="Metabolism Icon">
+      <p>Supports a healthy metabolism</p>
+    </div>
+
+
+  </div>
+</section>
+
+   <section class="cta">
+<h2 class="title">Place Your Order</h2>
+<p style="text-align:center; margin-bottom:20px;">Customize your perfect coffee blend</p>
+
+
+<form class="order-form" style="max-width:600px; margin:auto; padding:30px; background:#ffffff; border-radius:14px; border:1px solid #eee; box-shadow:0 4px 20px rgba(0,0,0,0.05); animation:fadeUp 0.8s ease;">
+
+
+<label for="name">Full Name</label>
+<input type="text" id="name" name="name" required placeholder="Enter your name" style="width:100%; padding:14px; margin:8px 0 22px; border-radius:10px; border:1px solid #ddd; background:#fafafa;">
+
+
+<label for="email">Email</label>
+<input type="email" id="email" name="email" required placeholder="Enter your email" style="width:100%; padding:14px; margin:8px 0 22px; border-radius:10px; border:1px solid #ddd; background:#fafafa;">
+
+
+<label for="coffee">Choose Your Coffee</label>
+<div class="custom-select">
+<select id="coffee" name="coffee" required class="image-select">
+<option value="Classic Brew" data-img="./image/Classic Brew.png">Classic Brew</option>
+<option value="Vanilla Latte" data-img="./image/Vanilla Latte.png">Vanilla Latte</option>
+<option value="Mocha Bliss" data-img="./image/Mocha Bliss.png">Mocha Bliss</option>
+<option value="Caramel Roast" data-img="./image/Caramel Roast.png">Caramel Roast</option>
+<option value="Hazelnut Smooth" data-img="./image/Hazelnut Smooth.png">Hazelnut Smooth</option>
+<option value="Dark Espresso" data-img="./image/Dark Espresso.png">Dark Espresso</option>
+<option value="Cinnamon Spice" data-img="./image/Cinnamon Spice.png">Cinnamon Spice</option>
+<option value="Coconut Cream" data-img="./image/Coconut Cream.png">Coconut Cream</option>
+<option value="Irish Coffee" data-img="./image/Irish Coffee.png">Irish Coffee</option>
+<option value="Peppermint Mocha" data-img="./image/Peppermint Mocha.png">Peppermint Mocha</option>
+</select>
+</div>
+
+
+<label for="size">Select Size</label>
+<select id="size" name="size" required style="width:100%; padding:14px; margin:8px 0 22px; border-radius:10px; border:1px solid #ddd; background:#fafafa;">
+<option value="Small">Small</option>
+<option value="Medium">Medium</option>
+<option value="Large">Large</option>
+</select>
+
+
+<label for="notes">Special Instructions</label>
+<textarea id="notes" name="notes" placeholder="Add any notes or custom preferences" style="width:100%; padding:14px; margin:8px 0 25px; border-radius:10px; border:1px solid #ddd; background:#fafafa; height:120px;"></textarea>
+
+
+<button type="submit" style="width:100%; padding:16px; background:#d8b89a; color:white; font-size:1.1rem; border:none; border-radius:10px; cursor:pointer; transition:0.3s;">
+Submit Order
+</button>
+</form> 
+</section>
+
+
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Archie Villasor</title>
+  <style>
+/* Country Cards Gallery */
+    .country-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  border: 2px solid #fff;
+}
+
+.country-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Transparent Text Overlay */
+.country-label {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 8px 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.45); /* transparent black */
+  backdrop-filter: blur(2px);
+}
+
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: url(./IMAGE/C.jpg) center/cover no-repeat fixed;
+      backdrop-filter: blur(6px);
+      color: #ffffff;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 20px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    header img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 20px;
+      border: 3px solid #fff;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.2rem;
+    }
+
+    section {
+      margin-top: 30px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 15px;
+      border: 2px solid #fff;
+    }
+
+    .social {
+      margin-top: 30px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .social a img {
+      width: 40px;
+      height: 40px;
+    }
+
+      /* Animations */
+    .fade-in {
+      animation: fadeIn 1.2s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Minimalist Enhancements */
+    h1, h2 {
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .container {
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+    img {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="fade-in">
+      <img src="./IMAGE/ARCH.jpeg" alt="Archie Photo">
+      <div>
+        <h1>Hi, I'm Archie Villasor</h1>
+        <p>Welcome to my personal page! Here you can learn more about who I am, where I'm from, and the places I have visited.</p>
+      </div>
+    </header>
+
+    <section class="fade-in">
+      <h2>About Me</h2>
+      <p>My name is Archie Villasor. I enjoy exploring different cultures, spending time with my loved ones, and traveling to new destinations around the world. I created this simple website to introduce myself and share the moments that shaped me.</p>
+    </section>
+
+    <section class="fade-in">
+      <h2>My Favorite Place</h2>
+      <img src="./IMAGE/BORACAY.png" alt="Favorite Place" style="width:100%; border-radius:15px; border:2px solid #fff;">
+      <source>
+        One of my favorite places is Boracay in the Philippines. Its pristine white beaches and crystal-clear waters make it a perfect getaway for relaxation and adventure.
+
+    </section>
+
+    <section class="fade-in">
+      <h2>My Family</h2>
+      <img src="./IMAGE/FAMILY.jpg" alt="Family Photo" style="width:100%; border-radius:15px; border:2px solid #fff;">
+      <p>Family is very important to me. They provide support, love, and encouragement in everything I do. I cherish the moments we spend together, creating memories that last a lifetime.</p>
+    </section>
+
+    <section class="fade-in">
+      <h2>My Country of Birth</h2>
+      <img src="./IMAGE/PHILIPPINES.png" alt="Country of Birth" style="width:100%; border-radius:15px; border:2px solid #fff;">
+      <p>I was born in the beautiful Philippines, known for its rich culture, warm hospitality, and stunning natural landscapes.</p>
+
+    </section>
+
+    <section class="fade-in">
+  <h2>Countries I Have Visited</h2>
+  <div class="gallery">
+
+    <div class="country-card">
+      <img src="./IMAGE/MALAYSIA.png" alt="Malaysia">
+      <div class="country-label">MALAYSIA</div>
+    </div>
+
+    <div class="country-card">
+      <img src="./IMAGE/SINGAPORE.png" alt="Singapore">
+      <div class="country-label">SINGAPORE</div>
+    </div>
+
+    <div class="country-card">
+      <img src="./IMAGE/DUBAI.png" alt="Dubai">
+      <div class="country-label">DUBAI</div>
+    </div>
+
+    <div class="country-card">
+      <img src="./IMAGE/NIGERIA.png" alt="Nigeria">
+      <div class="country-label">NIGERIA</div>
+    </div>
+
+    <div class="country-card">
+      <img src="./IMAGE/MOROCCO.png" alt="Morocco">
+      <div class="country-label">MOROCCO</div>
+    </div>
+
+    <div class="country-card">
+      <img src="./IMAGE/USA.png" alt="USA">
+      <div class="country-label">USA</div>
+    </div>
+
+    <div class="country-card">
+      <img src="./IMAGE/SOUTH KOREA.png" alt="South Korea">
+      <div class="country-label">SOUTH KOREA</div>
+    </div>
+
+    <div class="country-card">
+      <img src="./IMAGE/BRUNEI.png" alt="Brunei">
+      <div class="country-label">BRUNEI</div>
+    </div>
+
+  </div>
+</section>
+
+    <section class="social">
+      <a href="https://www.tiktok.com/@archievillasor6?is_from_webapp=1&sender_device=pc" target="_blank"><img src="./IMAGE/tiktok.png" alt="TikTok"></a>
+      <a href="https://www.facebook.com/archie.villasor.33/" target="_blank"><img src="./IMAGE/facebook.png" alt="Facebook"></a>
+      <a href="https://www.instagram.com/villasorarchie?igsh=NTc4MTIwNjQ2YQ%3D%3D&utm_source=qr" target="_blank"><img src="./IMAGE/insta.png" alt="Instagram"></a>
+      <a href="mailto:edmarkerarchie@gmail.com" target="_blank"><img src="./IMAGE/gmail.png" alt="Gmail"></a>
+    </section>
+  </div>
+</body>
+</html>

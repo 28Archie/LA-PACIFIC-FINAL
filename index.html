@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CGD 200/210: Dreamweaver I/II - Fall 2025</title>
+  <style>
+    /* General body styling */
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      background: url('./image/C2.jpg') center/cover no-repeat fixed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+    }
+
+    h1 {
+      margin-top: 50px;
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+    }
+
+    .folders {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 50px 20px;
+      gap: 40px;
+    }
+
+    .folder {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s, background 0.3s;
+      text-align: center;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .folder:hover {
+      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .folder-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+      z-index: 2;
+    }
+
+    .folder-description {
+      position: absolute;
+      bottom: -70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, bottom 0.3s;
+      width: 180px;
+    }
+
+    .folder:hover .folder-description {
+      opacity: 1;
+      bottom: -90px;
+    }
+
+    @media (max-width: 600px) {
+      .folders {
+        gap: 20px;
+      }
+      .folder {
+        width: 120px;
+        height: 120px;
+      }
+      .folder-description {
+        width: 150px;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>CGD 200/210: Dreamweaver I/II - Fall 2025</h1>
+
+  <div class="folders">
+    <a href="https://28archie.github.io/MYSELF/" target="_blank" class="folder">
+      <div class="folder-name">1 MY SELF</div>
+      <div class="folder-description">Create a web page introducing yourself. Use some common HTML elements.</div>
+    </a>
+    <a href="https://28archie.github.io/FIX-HTML/" target="_blank" class="folder">
+      <div class="folder-name">2 FIX HTML</div>
+      <div class="folder-description">I provided some HTML and CSS written by AI. Fix it and add your own touch.</div>
+    </a>
+    <a href="https://28archie.github.io/AI-GENERATED/" target="_blank" class="folder">
+      <div class="folder-name">3 AI GENERATED</div>
+      <div class="folder-description">Make up a product and create a page for it. Use AI for images and text.</div>
+    </a>
+    <a href="https://28archie.github.io/COFFEE-PRODUCT/" target="_blank" class="folder">
+      <div class="folder-name">4 GITHUB PRODUCT PAGE</div>
+      <div class="folder-description">Github product page</div>
+    </a>
+    <a href="https://28archie.github.io/AI-GENERATED/" target="_blank" class="folder">
+      <div class="folder-name">5 LANDING PAGE</div>
+      <div class="folder-description">Create a page to engage users and direct them to your product or service page.</div>
+    </a>
+  </div>
+
+</body>
+</html>

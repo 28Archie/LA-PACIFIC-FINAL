@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Coffee Personality Quiz — Find Your Brew</title>
+
+  <style>
+    :root{
+      --accent:#ffcb74;
+      --bg-overlay:rgba(0,0,0,0.6);
+      --card-bg:rgba(255,255,255,0.12);
+      --glass:backdrop-filter: blur(8px);
+    }
+
+    /* BASIC LAYOUT */
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:#fff;
+      min-height:100vh;
+      background: url('./coffee background.png') center/cover no-repeat fixed;
+      -webkit-font-smoothing:antialiased;
+    }
+    .overlay{
+      background:var(--bg-overlay);
+      min-height:100vh;
+      padding:28px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    /* CARD */
+    .card{
+      width:100%;
+      max-width:720px;
+      background:var(--card-bg);
+      border-radius:18px;
+      padding:22px;
+      position:relative;
+      overflow:hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transition: transform .25s ease;
+      backdrop-filter: blur(6px);
+    }
+
+    h1{ text-align:center; margin:0 0 12px; font-size:1.8rem;}
+    p.lead{ text-align:center; margin:6px 0 18px; opacity:0.9 }
+
+    /* PROGRESS */
+    .progress-wrap{height:12px; background:rgba(255,255,255,0.08); border-radius: 999px; overflow:hidden; margin-bottom:18px}
+    .progress{height:100%; width:0%; background:var(--accent); transition:width .45s cubic-bezier(.2,.9,.3,1)}
+
+    /* STEPS (absolute stacking) */
+    .steps{position:relative; height:360px; margin-bottom:12px}
+    .step{
+      position:absolute;
+      inset:0;
+      padding:10px 6px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      transform:translateX(100%);
+      opacity:0;
+      pointer-events:none;
+      transition: transform .45s cubic-bezier(.2,.9,.3,1), opacity .35s ease;
+    }
+    .step.active{
+      transform:translateX(0);
+      opacity:1;
+      pointer-events:auto;
+    }
+    .step.left{
+      transform:translateX(-100%);
+      opacity:0;
+    }
+
+    label{font-weight:600; margin-bottom:6px}
+    .options{display:flex;flex-direction:column; gap:8px}
+    .option-btn{
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.05);
+      padding:12px 14px;
+      border-radius:12px;
+      cursor:pointer;
+      text-align:left;
+      transition: transform .12s ease, box-shadow .12s;
+      display:flex; align-items:center; gap:12px;
+    }
+    .option-btn:hover{ transform:translateY(-4px); box-shadow: 0 6px 18px rgba(0,0,0,0.35)}
+    .option-btn input{ margin-right:8px; accent-color:var(--accent) }
+
+    /* NAV */
+    .nav{
+      display:flex;
+      gap:10px;
+      margin-top:8px;
+    }
+    .btn{
+      flex:1;
+      padding:12px 14px;
+      border-radius:12px;
+      border:none;
+      background:var(--accent);
+      color:#000;
+      font-weight:700;
+      cursor:pointer;
+      transition:transform .12s;
+    }
+    .btn.secondary{
+      background:transparent;
+      color:#fff;
+      border:1px solid rgba(255,255,255,0.12);
+    }
+
+    /* RESULT */
+    .result{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      padding:12px;
+      border-radius:12px;
+      background:rgba(0,0,0,0.25);
+      margin-top:10px;
+      transform-origin:center;
+      opacity:0;
+      transform:scale(.98);
+      transition: opacity .4s ease, transform .4s cubic-bezier(.2,.9,.3,1);
+    }
+    .result.show{ opacity:1; transform:scale(1) }
+    .result-img{
+      width:44%;
+      border-radius:10px;
+      overflow:hidden;
+      min-height:140px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .result-img img{ width:100%; height:100%; object-fit:cover; display:block; transform:scale(.98); transition:transform .6s cubic-bezier(.2,.9,.3,1)}
+    .result-meta{ width:56% }
+    .personality{ font-weight:800; font-size:1.2rem; margin-bottom:6px}
+    .desc{ font-size:.95rem; margin:0 0 8px; opacity:0.95 }
+    .tag{ display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700; font-size:.86rem; background:rgba(255,255,255,0.06) }
+
+    /* SMALLSCREEN */
+    @media (max-width:600px){
+      .steps{height:420px}
+      .result{flex-direction:column}
+      .result-img{width:100%; min-height:180px}
+      .result-meta{width:100%}
+    }
+
+    /* subtle focus */
+    .option-btn:focus-within{ outline:2px solid rgba(255,255,255,0.06); box-shadow:0 8px 20px rgba(0,0,0,0.45) }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <main class="card" role="main" aria-labelledby="title">
+      <h1 id="title">Find Your Perfect Coffee — Personality Quiz</h1>
+      <p class="lead">A few quick questions → personalized coffee + photo. Real photos recommended.</p>
+
+      <div class="progress-wrap" aria-hidden="true"><div id="progress" class="progress"></div></div>
+
+      <section class="steps" id="steps" aria-live="polite">
+        <!-- STEP 1 -->
+        <div class="step active" id="step-1" data-step="1">
+          <label id="q1-label">1) Which aroma draws you in most?</label>
+          <div class="options" role="list" aria-labelledby="q1-label">
+            <button class="option-btn" data-key="adventure" data-value="espresso" role="listitem">
+              <input type="radio" name="q1" aria-hidden="true" />
+              Intense espresso — wake me up and go!
+            </button>
+            <button class="option-btn" data-key="calm" data-value="pour-over" role="listitem">
+              <input type="radio" name="q1" aria-hidden="true" />
+              Smooth pour-over — subtle, layered, calm.
+            </button>
+            <button class="option-btn" data-key="sweet" data-value="latte" role="listitem">
+              <input type="radio" name="q1" aria-hidden="true" />
+              Sweet & creamy — flavored delights.
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step" id="step-2" data-step="2">
+          <label id="q2-label">2) How do you usually drink it?</label>
+          <div class="options" role="list" aria-labelledby="q2-label">
+            <button class="option-btn" data-key="adventure" data-value="black" role="listitem">
+              <input type="radio" name="q2" aria-hidden="true" />
+              Black and strong — no frills.
+            </button>
+            <button class="option-btn" data-key="calm" data-value="cup" role="listitem">
+              <input type="radio" name="q2" aria-hidden="true" />
+              Slow sips in small cups.
+            </button>
+            <button class="option-btn" data-key="sweet" data-value="iced" role="listitem">
+              <input type="radio" name="q2" aria-hidden="true" />
+              Iced or sweetened drinks.
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step" id="step-3" data-step="3">
+          <label id="q3-label">3) What roast level makes you smile?</label>
+          <div class="options" role="list" aria-labelledby="q3-label">
+            <button class="option-btn" data-key="power" data-value="dark" role="listitem">
+              <input type="radio" name="q3" aria-hidden="true" />
+              Dark roast — bold flavors, higher kick.
+            </button>
+            <button class="option-btn" data-key="calm" data-value="medium" role="listitem">
+              <input type="radio" name="q3" aria-hidden="true" />
+              Medium roast — balanced & warm.
+            </button>
+            <button class="option-btn" data-key="sweet" data-value="light" role="listitem">
+              <input type="radio" name="q3" aria-hidden="true" />
+              Light roast — fruity, aromatic.
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="step" id="step-4" data-step="4">
+          <label id="q4-label">4) Which best describes your vibe?</label>
+          <div class="options" role="list" aria-labelledby="q4-label">
+            <button class="option-btn" data-key="adventure" data-value="on-the-go" role="listitem">
+              <input type="radio" name="q4" aria-hidden="true" />
+              On-the-go, adventurous.
+            </button>
+            <button class="option-btn" data-key="calm" data-value="ritual" role="listitem">
+              <input type="radio" name="q4" aria-hidden="true" />
+              Ritual, slow & mindful.
+            </button>
+            <button class="option-btn" data-key="sweet" data-value="social" role="listitem">
+              <input type="radio" name="q4" aria-hidden="true" />
+              Social, sweet, playful.
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 5 (Budget & Frequency merged) -->
+        <div class="step" id="step-5" data-step="5">
+          <label id="q5-label">5) Budget & how often?</label>
+          <div class="options" role="list" aria-labelledby="q5-label">
+            <button class="option-btn" data-key="calm" data-value="daily_standard" role="listitem">
+              <input type="radio" name="q5" aria-hidden="true" />
+              Daily, standard budget (regular quality).
+            </button>
+            <button class="option-btn" data-key="power" data-value="workhorse" role="listitem">
+              <input type="radio" name="q5" aria-hidden="true" />
+              Need max energy — willing to pay premium.
+            </button>
+            <button class="option-btn" data-key="sweet" data-value="treat" role="listitem">
+              <input type="radio" name="q5" aria-hidden="true" />
+              Occasional treat — flavored/premium.
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- NAVIGATION -->
+      <div class="nav" aria-hidden="false">
+        <button id="prevBtn" class="btn secondary" onclick="goPrev()" aria-label="Previous question" disabled>Back</button>
+        <button id="nextBtn" class="btn" onclick="goNext()" aria-label="Next question">Next</button>
+      </div>
+
+      <!-- RESULT CARD -->
+      <div id="resultCard" class="result" aria-live="polite" hidden>
+        <div class="result-img" aria-hidden="false">
+          <img id="resultImage" src="./Image5/default_coffee.png" alt="Recommended coffee photo">
+        </div>
+        <div class="result-meta">
+          <div class="personality" id="personalityName">Your Coffee Match</div>
+          <p class="desc" id="personalityDesc">A short personality result will appear here with a recommended product and short tasting notes.</p>
+          <div style="margin-top:8px;">
+            <span class="tag" id="productTag">Recommended product</span>
+          </div>
+          <div style="margin-top:12px; display:flex; gap:8px">
+            <button class="btn" onclick="goToShop()">Buy Recommended Product</button>
+            <button class="btn secondary" onclick="restart()">Retake Quiz</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    /* ---------------------------
+       Simple personality scoring
+       --------------------------- */
+    const steps = Array.from(document.querySelectorAll('.step'));
+    const totalSteps = steps.length;
+    let current = 0;
+
+    let scores = {
+      adventure: 0, // bold on-the-go
+      calm: 0,      // ritual / pour-over
+      sweet: 0,     // flavored / playful
+      power: 0      // strong / high-energy
+    };
+
+    // map personalities to final output
+    const profiles = {
+      adventure: {
+        name: "Adventurer — The Bold Traveler",
+        desc: "You love bold shots and strong flavors that keep you moving. Recommended: a high-density espresso or robust dark roast to power your day.",
+        tag: "Dark Roast / Espresso",
+        image: "./Image5/adventurer.png"
+      },
+      calm: {
+        name: "Calm Soul — The Ritual Drinker",
+        desc: "You savor slow mornings and layered aromas. Recommended: a single-origin pour-over or medium roast for nuance and balance.",
+        tag: "Single-origin / Pour-over",
+        image: "./Image5/calm_soul.png"
+      },
+      sweet: {
+        name: "Sweet Spirit — The Social Sipper",
+        desc: "You enjoy flavorful, comforting drinks with a touch of sweetness. Recommended: vanilla/caramel lattes or flavored cold brews.",
+        tag: "Flavored Latte / Cold Brew",
+        image: "./Image5/sweet_spirit.png"
+      },
+      power: {
+        name: "Power Booster — The Workhorse",
+        desc: "You want maximum energy and a reliable punch. Recommended: premium dark blends or high-caffeine roast (Robusta blends or espresso).",
+        tag: "High-caffeine Blend",
+        image: "./Image5/power_booster.png"
+      }
+    };
+
+    // Attach click handlers to option buttons
+    document.querySelectorAll('.option-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-key');
+        if (key && scores.hasOwnProperty(key)) {
+          scores[key] += 1;
+        }
+        // mark chosen visually (for accessibility)
+        // remove active style inside this step
+        const parentStep = btn.closest('.step');
+        parentStep.querySelectorAll('.option-btn').forEach(b => b.classList.remove('chosen'));
+        btn.classList.add('chosen');
+
+        // auto-advance after a short delay for snappier UX
+        setTimeout(() => {
+          goNext();
+        }, 260);
+      });
+    });
+
+    // navigation functions
+    function goNext(){
+      if (current < totalSteps - 1) {
+        showStep(current + 1);
+      } else {
+        // finalize
+        finalize();
+      }
+    }
+    function goPrev(){
+      if (current > 0) showStep(current - 1);
+    }
+
+    function showStep(index){
+      // update classes for animation (left/right)
+      steps.forEach((s, i) => {
+        s.classList.remove('active', 'left');
+        if (i < index) s.classList.add('left'); // moved left
+        if (i === index) s.classList.add('active');
+      });
+      current = index;
+      updateProgress();
+      // update buttons
+      document.getElementById('prevBtn').disabled = current === 0;
+      document.getElementById('nextBtn').textContent = current === totalSteps - 1 ? 'See Result' : 'Next';
+    }
+
+    function updateProgress(){
+      const progress = document.getElementById('progress');
+      const percent = Math.round((current) / (totalSteps - 1) * 100);
+      progress.style.width = percent + '%';
+    }
+
+    function finalize(){
+      // Determine top personality (if tie, prefer the one with highest priority)
+      const sorted = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+      let top = sorted[0][0];
+
+      // If all zero (user clicked nothing), fallback to calm
+      if (sorted[0][1] === 0) top = 'calm';
+
+      showResult(top);
+    }
+
+    function showResult(key){
+      const profile = profiles[key] || profiles['calm'];
+      // update UI
+      const card = document.getElementById('resultCard');
+      document.getElementById('personalityName').textContent = profile.name;
+      document.getElementById('personalityDesc').textContent = profile.desc;
+      document.getElementById('productTag').textContent = profile.tag;
+      const img = document.getElementById('resultImage');
+      img.src = profile.image || './images/default_coffee.jpg';
+      img.alt = profile.name + " photo";
+
+      // reveal result area
+      card.hidden = false;
+      // animate
+      setTimeout(()=> card.classList.add('show'), 30);
+
+      // move progress to 100
+      document.getElementById('progress').style.width = '100%';
+
+      // collapse quiz view slightly
+      document.querySelector('.steps').style.filter = 'blur(2px)';
+      document.querySelector('.nav').style.display = 'none';
+    }
+
+    function goToShop(){
+      https://28archie.github.io/COFFEE-PRODUCT/; update as needed
+      window.location.href = 'https://28archie.github.io/COFFEE-PRODUCT/';
+    }
+
+    function restart(){
+      // reset
+      scores = { adventure:0, calm:0, sweet:0, power:0 };
+      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('chosen'));
+      document.getElementById('resultCard').classList.remove('show');
+      document.getElementById('resultCard').hidden = true;
+      document.querySelector('.steps').style.filter = 'none';
+      document.querySelector('.nav').style.display = 'flex';
+      showStep(0);
+    }
+
+    // small keyboard accessibility: left/right arrow
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') goNext();
+      if (e.key === 'ArrowLeft') goPrev();
+    });
+
+    // initial progress
+    updateProgress();
+
+    // pre-load images for smoother UI
+    Object.values(profiles).forEach(p => {
+      const img = new Image();
+      img.src = p.image;
+    });
+  </script>
+</body>
+</html>
